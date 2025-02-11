@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Cyber Scalextrics</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/xterm@4.11.0/css/xterm.css" />
+</head>
+<body>
+    <div class="main-container">
+        <!-- Info Panel Button -->
+        <div id="info-toggle" onclick="toggleInfoPanel()">Info</div>
+
+        <!-- Info Panel -->
+        <div id="info-panel">
+            <h3>Learning Resources</h3>
+            <p>Here you'll find helpful information on how to use commands, navigate the terminal, and complete tasks. Use this as your guide throughout the activity!</p>
+            <button onclick="closeInfoPanel()">Close</button>
+        </div>
+
+        <!-- Tutorial Pane -->
+        <div class="tutorial-container">
+            <h2>Mission: Hack the Rival Team!</h2>
+            <h2 id="mission-title"></h2>
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progress-bar-fill"></div>
+            </div>            
+            
+            <div class="instructions-section">
+                <p id="instructions"></p>
+            </div>
+
+            <div id="question-container">
+                <p id="question">Objective: Find your IP address.</p>
+                <div id="answer-container">
+                    <!-- Multiple choice options will be dynamically added here -->
+                </div>
+                <button id="submit-button" onclick="submitAnswer()" style="display:none;">Submit</button>
+                <div id="button-container">
+                    <button id="previous-button" onclick="previousQuestion()">Previous</button>
+                    <button id="next-button" onclick="nextQuestion()">Next</button>
+                </div>
+                <p id="feedback"></p>
+
+                <!-- Hint Dropdown -->
+                <div class="hint-container">
+                    <button class="hint-button" onclick="toggleHint()">Show Hint</button>
+                    <div class="hint-content" id="hint-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Terminal Emulator -->
+        <div class="terminal-container">
+            <div class="status" id="status">Connecting...</div>
+            <div id="terminal"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/xterm@4.11.0/lib/xterm.js"></script>
+    <script src="https://unpkg.com/xterm-addon-fit@0.5.0/lib/xterm-addon-fit.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/terminal.js"></script>
+
+    <script>
+        // JavaScript to toggle the info panel visibility
+        function toggleInfoPanel() {
+            const infoPanel = document.getElementById('info-panel');
+            infoPanel.classList.toggle('active');
+        }
+
+        function closeInfoPanel() {
+            const infoPanel = document.getElementById('info-panel');
+            infoPanel.classList.remove('active');
+        }
+
+        // JavaScript to toggle the hint visibility
+        function toggleHint() {
+            const hintContent = document.getElementById('hint-content');
+            if (hintContent.style.display === 'none' || hintContent.style.display === '') {
+                hintContent.style.display = 'block';
+            } else {
+                hintContent.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
