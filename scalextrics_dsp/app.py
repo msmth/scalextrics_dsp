@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 import argparse
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO
-import pty, os, subprocess, select, termios, struct, fcntl, shlex
+import pty, os, subprocess, select, termios, struct, fcntl, json
 
 # App Setup
 app = Flask(__name__, template_folder=".", static_folder=".", static_url_path="")
 
 # App Config
-app.config["SECRET_KEY"] = "secret!"  # Secret key for session management
-app.config["ENV"] = 'development'     # Development environment
-app.config["fd"] = None               # File descriptor for the PTY
-app.config["child_pid"] = None        # Child
+app.config.update(
+    SECRET_KEY="topsecret!",
+    ENV="development",
+    fd=None,
+    child_pid=None,
+    terminal_output="",
+)
 
 # SocketIO Setup
 socketio = SocketIO(app)
@@ -27,44 +30,61 @@ def read_and_forward_pty_output():
     while True:
         socketio.sleep(0.01)
         if app.config["fd"]:
-            timeout_sec = 0
-            (data_ready, _, _) = select.select([app.config["fd"]], [], [], timeout_sec)
+            (data_ready, _, _) = select.select([app.config["fd"]], [], [], 0)
             if data_ready:
                 output = os.read(app.config["fd"], max_read_bytes).decode()
+                app.config["terminal_output"] += output
                 socketio.emit("pty-output", {"output": output}, namespace="/pty")
+
+# Load questions from JSON
+QUESTIONS_FILE_PATH = "/scalextrics_dsp/questions.json"
+
+# Load questions from the file
+def load_questions():
+    if os.path.exists(QUESTIONS_FILE_PATH):
+        with open(QUESTIONS_FILE_PATH) as file:
+            return json.load(file)
+    else:
+        return []
+    
+# Function to compare terminal output with user answer
+@app.route("/check_answer", methods=["POST"])
+def check_answer():
+    user_answer = request.json.get("answer")
+    terminal_output = app.config["terminal_output"]
+    
+    # Example check for IP address format
+    if user_answer in terminal_output:
+        return jsonify({"result": "correct"})
+    else:
+        return jsonify({"result": "incorrect"})
 
 # Routes to main page
 @app.route("/")
 def index():
-    return render_template("/templates/index.html")
+    questions = load_questions()
+    return render_template("/templates/homepage.html", questions=questions)
 
 # Listens for user input and writes to the terminal
 @socketio.on("pty-input", namespace="/pty")
 def pty_input(data):
-    """write to the child pty. The pty sees this as if you are typing in a real
-    terminal.
-    """
     if app.config["fd"]:
-        # print("writing to ptd: %s" % data["input"])
         os.write(app.config["fd"], data["input"].encode())
 
 # Updates terminal window size based upon browser window size
-@socketio.on("resize", namespace="/pty")
-def resize(data):
-    if app.config["fd"]:
-        set_winsize(app.config["fd"], data["rows"], data["cols"])
+# @socketio.on("resize", namespace="/pty")
+# def resize(data):
+#     if app.config["fd"]:
+#         set_winsize(app.config["fd"], data["rows"], data["cols"])
 
 
 @socketio.on("connect", namespace="/pty")
 def connect():
     if app.config["child_pid"]:
         return
-    
-    # Desired directory where the program should start
-    desired_directory = "/home"
 
-    # Change the current working directory to the desired directory
-    os.chdir(desired_directory)
+    # Change the current working directory to the desired starting directory
+    os.chdir("/home")
 
     # Creates new PTY using fork
     (child_pid, fd) = pty.fork()
@@ -76,34 +96,3 @@ def connect():
         set_winsize(fd, 50, 50)
         socketio.start_background_task(target=read_and_forward_pty_output)
 
-
-def main():
-    parser = argparse.ArgumentParser(
-        description=(
-            "A fully functional terminal in your browser. "
-        ),
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    parser.add_argument("-p", "--port", default=5000, help="port to run server on")
-    parser.add_argument(
-        "--host",
-        default="127.0.0.1",
-        help="host to run server on (use 0.0.0.0 to allow access from other hosts)",
-    )
-    parser.add_argument("--debug", action="store_true", help="debug the server")
-    parser.add_argument(
-        "--command", default="bash", help="Command to run in the terminal"
-    )
-    parser.add_argument(
-        "--cmd-args",
-        default="",
-        help="arguments to pass to command (i.e. --cmd-args='arg1 arg2 --flag')",
-    )
-    args = parser.parse_args()
-    print(f"serving on http://{args.host}:{args.port}")
-    app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
-    socketio.run(app, debug=args.debug, port=args.port, host=args.host)
-
-
-if __name__ == "__main__":
-    main()

@@ -1,270 +1,132 @@
-/* Global styles */
-html {
-  font-family: 'Arial', sans-serif;
-  background: #121212;
-  color: #fff;
-  box-sizing: border-box;
-  margin: 0;
-}
-
 body {
+  font-family: Arial, sans-serif;
+  background-color: #157b82; /* Teal Background */
+  margin: 0;
+  padding: 0;
   display: flex;
   height: 100vh;
-  margin: 0;
+  overflow: hidden; /* Prevents overall page scrolling */
 }
 
+/* Main Layout */
 .main-container {
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+}
+
+/* Activity Wrapper (Thicker Teal Border) */
+.activity-wrapper {
+  background-color: #157b82; /* Teal Background */
+  padding: 20px; /* Thick border */
+  padding-top: 90px;
+  box-sizing: border-box; /* Fixes top cut-off issue */
+  flex: 0 1 40%; /* Adjusts size based on screen width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  min-width: 300px; /* Prevents it from getting too small */
   overflow: hidden;
-  flex-direction: row;
 }
 
-.tutorial-container {
-  width: 45%;
-  background: linear-gradient(135deg, #2B2B2B, #333333);
+/* Activity Panel */
+.activity-container {
+  background: #ffffff;
   padding: 20px;
-  overflow-y: auto;
-  border-right: 3px solid #444;
-  font-family: 'Courier New', Courier, monospace;
-  position: relative;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%; /* Adjusts within the wrapper */
+  max-width: 600px; /* Prevents excessive stretching */
+  height: 100%;
+  overflow-y: auto; /* Enables scrolling if content overflows */
   display: flex;
   flex-direction: column;
+  box-sizing: border-box; /* Prevents overflow from padding */
 }
 
-h2 {
-  color: #33FF99;
-  font-size: 30px;
-  margin-bottom: 20px;
-  text-align: center;
-  text-shadow: 2px 2px 5px rgba(0, 255, 0, 0.5);
-}
-
-h3 {
-  font-size: 22px;
-  color: #7BFF7B;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-#question-container p {
-  font-size: 18px;
-  margin: 20px 0;
-  color: #CCCCCC;
-  text-align: center;
+/* Activity Header */
+#activity-title {
+  font-size: 20px;
   font-weight: bold;
-}
-
-#answer-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  background-color: #444;
-  color: #fff;
-  border: 2px solid #555;
-  border-radius: 10px;
-  height: 40px;
-  line-height: 1.5;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-}
-
-#answer-container {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  gap: 8px;
+  background-color: #e0e0e0;
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+  color: #4a4a4a;
 }
 
+#activity-title::before {
+  content: '\1F50D'; /* Magnifying Glass Emoji */
+  font-size: 20px;
+}
+
+#activity-description {
+  font-size: 14px;
+  color: #333;
+  padding: 10px;
+}
+
+/* Question Box */
+#questions-container {
+  background: #f3f3f3;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.question {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Input Box */
+input[type="text"] {
+  width: calc(100% - 50px);
+  padding: 8px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 12px;
+  display: inline-block;
+}
+
+/* Validation Message */
+.correct {
+  color: green;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* Submit & Next Button */
 button {
-  background-color: #33FF99;
-  color: #000;
-  padding: 12px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: transform 0.3s, background-color 0.3s ease;
-  width: 48%;
-  margin-top: 10px;
-}
-
-button:hover {
-  background-color: #28CC80;
-  transform: scale(1.05);
-}
-
-button:active {
-  transform: scale(0.98);
-}
-
-#submit-button {
-  background-color: #33FF99;
-  color: #000;
-  font-size: 16px;
-  padding: 12px 20px;
-  border-radius: 5px;
+  background-color: #00c853;
+  color: white;
+  padding: 8px 12px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  width: 100%;
-  margin-top: 20px;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+#next-button {
+  background-color: #00c853;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-top: 15px;
+  display: block;
+}
+
+#next-button.hidden {
   display: none;
 }
 
-#submit-button:hover {
-  background-color: #28CC80;
-}
-
-.terminal-container {
-  width: 55%;
-  height: 100%;
-  background: #000;
-  color: #33FF00;
-  font-family: 'Courier New', Courier, monospace;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 255, 0, 0.7);
-}
-
-#terminal {
-  flex: 1;
-  padding: 20px;
-  color: #33FF00;
-  font-family: 'Courier New', Courier, monospace;
-  overflow-y: auto;
-}
-
-.status {
-  text-align: right;
-  color: #fff;
-  background-color: #121212;
-  padding: 10px;
-  border-top: 3px solid #444;
-}
-
-.progress-bar {
-  background-color: #444;
-  border-radius: 10px;
-  height: 25px;
-  width: 100%;
-  margin-bottom: 30px;
-  position: relative;
-}
-
-.progress-bar-fill {
-  background-color: #4CAF50;
-  height: 100%;
-  transition: width 0.4s ease-in-out;
-  border-radius: 5px;
-}
-
-.tooltip {
-  font-weight: bold;
-  color: #33FF99;
-  cursor: pointer;
-  position: relative;
-}
-
-.tooltip::after {
-  content: attr(data-tooltip);
+img {
   position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 5px;
-  border-radius: 5px;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s;
-  white-space: nowrap;
-}
-
-.tooltip:hover::after {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* Mobile responsiveness */
-@media screen and (max-width: 1200px) {
-  .tutorial-container, .terminal-container {
-      width: 50%;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .tutorial-container, .terminal-container {
-      width: 100%;
-      padding: 10px;
-  }
-
-  #submit-button {
-      width: 100%;
-  }
-}
-
-/* Sidebar/Toggle Info Section */
-#info-toggle {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background-color: #33FF99;
-  color: #000;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-  z-index: 1000;
-}
-
-#info-toggle:hover {
-  background-color: #28CC80;
-}
-
-#info-panel {
-  position: fixed;
   top: 0;
   left: 0;
-  width: 300px;
-  height: 100%;
-  background-color: #222;
-  padding: 20px;
-  color: #fff;
-  display: none;
-  box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.7);
-  overflow-y: auto;
-  z-index: 999;
-}
-
-#info-panel h3 {
-  color: #33FF99;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-#info-panel p {
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-#info-panel button {
-  background-color: #33FF99;
-  color: #000;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-  border: none;
-}
-
-#info-panel button:hover {
-  background-color: #28CC80;
-}
-
-/* Show info panel when active */
-#info-panel.active {
-  display: block;
+  width: 20%;  /* Keep this percentage to ensure it's responsive */
+  max-width: 100px;  /* Limit the maximum width */
+  height: auto; /* Maintain aspect ratio */
 }

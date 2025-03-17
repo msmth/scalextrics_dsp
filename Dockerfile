@@ -1,7 +1,7 @@
 FROM python:3.9
 
 # Create a non-root user
-RUN useradd -m -s /bin/bash termuser
+RUN useradd -m -s /bin/bash UWECyber
 
 # Install essential terminal tools
 RUN apt-get update && apt-get install -y \
@@ -23,10 +23,10 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Switch to non-root user
-USER termuser
+USER UWECyber
 
 # Expose Flask port
 EXPOSE 5000
 
 # Run Flask app
-CMD ["python3", "script.py"]
+CMD ["python3", "main.py"]

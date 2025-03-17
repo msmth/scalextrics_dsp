@@ -1,0 +1,40 @@
+[
+  {
+      "section": "Find your IP Address",
+      "questions": [
+          {
+              "type": "short-answer",
+              "description": [
+                  "<p>The first stage of any attack is to gather as much information about the target.</p>",
+                  "<p>Before you can find any details of the webserver, you’ll need to know your own IP address.</p>",
+                  "<p>An Internet Protocol (IP) address is a unique number assigned to every device on the internet.</p>",
+                  "<p>It helps websites, apps, and devices know where to send data. Each IP address is a set of four numbers, joined by full stops - for example, 152.174.18.19.</p>",
+                  "<p>To find your IP address, you can use the 'ifconfig' command in the terminal.</p>"
+              ],
+              "question": "What is your IP address?",
+              "answer_format": "x.x.x.x"
+          }
+      ]
+  },
+  {
+      "section": "Find the Web Server",
+      "questions": [
+          {
+              "type": "information",
+              "description": [
+                  "<p>Web servers typically listen on certain ports. HTTP usually runs on a default port.</p>",
+                  "<p>Which port is used by HTTP?</p>"
+              ],
+              "question": "Select the correct port for HTTP:",
+              "hint": ""
+          },
+          {
+              "type": "multiple-choice",
+              "choices": ["22", "80", "443", "8080"],
+              "question": "Select the correct port for HTTP:",
+              "answer": "80",
+              "hint": "This port is commonly used for unencrypted web traffic."
+          }
+      ]
+  }
+]

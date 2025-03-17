@@ -1,4 +1,3 @@
-version: '3'
 services:
   scalextrics-docker:
     image: scalextrics-docker:latest
@@ -8,5 +7,7 @@ services:
     command: python3 ./main.py --host='0.0.0.0' --debug
     ports:
       - 5000:5000
+    volumes:
+      - ./questions.json:/app/questions.json
     stdin_open: true
     tty: true
