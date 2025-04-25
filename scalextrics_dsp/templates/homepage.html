@@ -12,14 +12,31 @@
     <div class="activity-wrapper">
     <img src="/static/images/logo.png" alt="Cyber Scalextrics"/>
     <div class="activity-container">
+      <label class="switch">
+        <input type="checkbox" id="toggle-filter">
+        <span class="slider"></span>
+        <span class="label-text">Filter Output</span>
+      </label>
+      
+
       <h1 id="activity-title"></h1>
       <div id="activity-description"></div>
       
       <!-- Container for Questions -->
       <div id="questions-container"></div>
       
+      <!-- Feedback Message -->
+      <div id="feedback-message" class="hidden"></div>
+
       <!-- Next Button for moving to the next activity -->
       <button id="next-button" class="hidden">Next</button>
+      <button id="previous-button">Previous</button>
+      
+      <div id="reference-notes">
+        <h3>Saved Notes</h3>
+        <ul id="saved-answers-list"></ul>
+      </div>
+    
     </div>
     </div>
 
