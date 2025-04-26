@@ -34,30 +34,100 @@ document.addEventListener("DOMContentLoaded", () => {
     function createQuestionBox(question) {
         const box = document.createElement("div");
         box.className = "question-box";
-
+    
         const qText = document.createElement("p");
         qText.innerText = question.question;
         box.appendChild(qText);
-
+    
         if (question.type === "short-answer") {
             const input = document.createElement("input");
             input.id = "answer-input";
             input.placeholder = "Your answer";
             box.appendChild(input);
-
+    
             const button = document.createElement("button");
             button.innerText = "Submit";
             button.onclick = () => checkShortAnswer(question);
             box.appendChild(button);
+        } 
+        else if (question.type === "multiple-choice") {
+            const choicesContainer = document.createElement("div");
+            choicesContainer.className = "choices-container";
+    
+            question.choices.forEach((choice, index) => {
+                const label = document.createElement("label");
+                label.className = "choice-label";
+    
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox"; // allow multiple selection
+                checkbox.name = "multiple-choice";
+                checkbox.value = choice;
+                checkbox.id = `choice-${index}`;
+    
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(choice));
+                choicesContainer.appendChild(label);
+                choicesContainer.appendChild(document.createElement("br"));
+            });
+    
+            box.appendChild(choicesContainer);
+    
+            const button = document.createElement("button");
+            button.innerText = "Submit";
+            button.onclick = () => checkMultipleChoiceAnswer(question);
+            box.appendChild(button);
         }
-
+    
         if (question.hints?.length) {
             box.appendChild(createHintBox(question));
         }
-
+    
         return box;
     }
+    
 
+    function checkMultipleChoiceAnswer(question) {
+        const selectedElements = document.querySelectorAll('input[name="multiple-choice"]:checked');
+        if (selectedElements.length === 0) {
+            showFeedback("Please select at least one option.", "incorrect");
+            return;
+        }
+    
+        const selectedAnswers = Array.from(selectedElements).map(input => input.value.trim().toLowerCase());
+        const key = `${currentActivityIndex}-${currentQuestionIndex}`;
+        userAnswers[key] = selectedAnswers;
+    
+        const correctAnswers = (question.validation?.predefinedAnswers || []).map(ans => ans.trim().toLowerCase());
+    
+        if (correctAnswers.length === 0) {
+            showFeedback("No correct answers defined.", "incorrect");
+            return;
+        }
+    
+        // Compare selected answers to correct answers (ignoring order)
+        const isCorrect = arraysEqual(selectedAnswers, correctAnswers);
+    
+        validateAnswer(isCorrect);
+    
+        function validateAnswer(isCorrect) {
+            if (isCorrect) {
+                showFeedback("Correct!", "correct");
+                enableNextButton();
+            } else {
+                showFeedback("Incorrect, try again.", "incorrect");
+            }
+        }
+    }
+    
+    // Helper function to check if two arrays contain the same elements (order doesn't matter)
+    function arraysEqual(a, b) {
+        if (a.length !== b.length) return false;
+        const sortedA = [...a].sort();
+        const sortedB = [...b].sort();
+        return sortedA.every((val, index) => val === sortedB[index]);
+    }
+    
+    
     function createHintBox(question) {
         const container = document.createElement("div");
         container.className = "hint-container";

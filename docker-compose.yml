@@ -1,13 +1,13 @@
+version: "3"
 services:
   scalextrics-docker:
     image: scalextrics-docker:latest
     build:
       context: .
       dockerfile: Dockerfile
-    command: python3 ./main.py --host='0.0.0.0' --debug
-    ports:
-      - 5000:5000
+    command: python3 main.py --host='0.0.0.0' --debug
     volumes:
       - ./questions.json:/app/questions.json
     stdin_open: true
     tty: true
+    network_mode: host  # Optional: Try commenting this out if issues persist

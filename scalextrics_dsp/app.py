@@ -67,22 +67,32 @@ def index():
 
 @app.route("/check_answer", methods=["POST"])
 def check_answer():
-    """
-    Validate user's answer against the terminal output.
-    Currently supports extracting IP addresses using regex.
-    """
     user_answer = request.json.get("answer", "").strip()
     terminal_output = app.config["terminal_output"]
 
-    ip_match = re.search(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", terminal_output)
+    # Debugging: Print terminal output for inspection
+    print(f"Terminal Output: {terminal_output}")
+
+    # Try to extract all IP addresses starting with 10.104 from nmap output
+    ip_match = re.findall(r"\b10\.104\.\d{1,3}\.\d{1,3}\b", terminal_output)
+    
     if ip_match:
-        extracted_ip = ip_match.group(0)
-        print(f"Extracted IP: {extracted_ip}")  # For debugging
-        if user_answer == extracted_ip:
-            return jsonify({"result": "correct"})
-        else:
-            return jsonify({"result": "incorrect"})
-    return jsonify({"result": "error", "message": "No IP address found in terminal output."})
+        # For debugging: print all found IPs
+        print(f"Extracted IPs: {ip_match}")
+
+        # If there's more than one IP, we can just check if the user's answer matches any of them
+        for extracted_ip in ip_match:
+            print(f"Checking against: {extracted_ip}")
+
+            if user_answer == extracted_ip:
+                return jsonify({"result": "correct"})
+        
+        # If none of the IPs match, return incorrect
+        return jsonify({"result": "incorrect"})
+
+    # If no IP starting with 10.104 is found, return error
+    return jsonify({"result": "error", "message": "No valid IP address starting with '10.104' found in terminal output."})
+
 
 
 # === SocketIO Events ===

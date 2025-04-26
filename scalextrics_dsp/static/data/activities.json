@@ -19,7 +19,8 @@
         ],
         "saveAsNote": true,
         "noteKey": "IP_ADDRESS",
-        "noteLabel": "Machine IP"
+        "noteLabel": "Machine IP",
+        "target_ip_type": "general"
       }
     ]
   },
@@ -46,11 +47,16 @@
           "<p>Now that you have run nmap, you should see a list of devices on the network.</p>",
           "<p>Look for the device with the name ‘webserver’ and note down its IP address.</p>"
         ],
-        "question": "What is the name of the webserver?"
-      },
-      {
-        "type": "short-answer",
-        "question": "What is the IP address for the Webserver?"
+        "question": "What is the IP address for the Webserver?",
+        "answer_format": "x.x.x.x",
+        "hints": [
+          "Run the command `ifconfig` in the terminal.",
+          "Look for a line starting with `inet` that shows your IP address (not 127.0.0.1)."
+        ],
+        "saveAsNote": true,
+        "noteKey": "IP_ADDRESS",
+        "noteLabel": "Webserver IP",
+        "target_ip_type": "webserver"
       }
     ]
   },
@@ -58,7 +64,7 @@
     "section": "Finding Hidden Pages",
     "questions": [
       {
-        "type": "short-answer",
+        "type": "multiple-choice",
         "description": [
           "<p>Websites often have hidden pages that are not linked anywhere.</p>",
           "<p>These pages might contain useful information or tools – like a way to change the scoreboard!</p>",
@@ -67,7 +73,11 @@
           "<p>Type the following command into the terminal: <code>dirb http://{WEB_SERVER_IP}</code></p>",
           "<p>Look at the results. Some pages might stand out – one of them could let you modify the scores!</p>"
         ],
-        "question": "What hidden pages did dirb find on the webserver?"
+        "question": "What hidden pages did dirb find on the webserver?",
+        "choices": ["admin", "console", "team", "test"],
+        "validation": {
+          "predefinedAnswer": ["admin", "console", "team", "test"]
+        }
       },
       {
         "type": "short-answer",
@@ -76,7 +86,10 @@
           "<p>Open a new tab and go to: <code>http://{WEB_SERVER_IP}/{WEBPAGE}</code></p>",
           "<p>Look through all the webpages and see if you can find one that will allow you to reset the team's scores.</p>"
         ],
-        "question": "Which page allows you to reset the scoreboard?"
+        "question": "Which page allows you to reset the scoreboard?",
+        "validation": {
+          "predefinedAnswer": "admin"
+        }
       },
       {
         "type": "short-answer",
