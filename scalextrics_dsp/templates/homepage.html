@@ -10,7 +10,7 @@
   <div class="main-container">
     <!-- Activity Container -->
     <div class="activity-wrapper">
-    <img src="/static/images/logo.png" alt="Cyber Scalextrics"/>
+    <img src="/static/images/logo.png" class="uwe-logo" alt="Cyber Scalextrics"/>
     <div class="activity-container">
       <label class="switch">
         <input type="checkbox" id="toggle-filter">
@@ -29,8 +29,10 @@
       <div id="feedback-message" class="hidden"></div>
 
       <!-- Next Button for moving to the next activity -->
-      <button id="next-button" class="hidden">Next</button>
-      <button id="previous-button">Previous</button>
+      <div class="nav-buttons">
+        <button class="prev-btn">Previous</button>
+        <button class="next-btn">Next</button>
+      </div>      
       
       <div id="reference-notes">
         <h3>Saved Notes</h3>

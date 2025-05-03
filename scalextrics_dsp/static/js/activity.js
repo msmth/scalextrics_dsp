@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
             const button = document.createElement("button");
             button.innerText = "Submit";
-            button.onclick = () => checkMultipleChoiceAnswer(question);
+            button.onclick = (event) => checkMultipleChoiceAnswer(question, event);
             box.appendChild(button);
         }
     
@@ -86,8 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
 
-    function checkMultipleChoiceAnswer(question) {
-        const selectedElements = document.querySelectorAll('input[name="multiple-choice"]:checked');
+    function checkMultipleChoiceAnswer(question, event) {
+        const button = event.target;
+        const box = button.closest(".question-box"); // Find the nearest parent question box
+        const selectedElements = box.querySelectorAll('input[name="multiple-choice"]:checked');
+        
         if (selectedElements.length === 0) {
             showFeedback("Please select at least one option.", "incorrect");
             return;
@@ -118,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     }
+    
     
     // Helper function to check if two arrays contain the same elements (order doesn't matter)
     function arraysEqual(a, b) {

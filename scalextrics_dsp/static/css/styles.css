@@ -6,6 +6,7 @@ body {
   display: flex;
   height: 100vh;
   overflow: hidden;
+  color: #222;
 }
 
 /* Main Layout */
@@ -33,122 +34,143 @@ body {
 .activity-container {
   background: #ffffff;
   padding: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  border-radius: 10px;
 }
 
 /* Activity Header */
 #activity-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #e0e0e0;
-  padding: 10px;
-  border-radius: 5px 5px 0 0;
-  color: #4a4a4a;
+  background-color: #e0f7f9;
+  padding: 12px;
+  border-radius: 8px 8px 0 0;
+  color: #006d6d;
 }
 
 #activity-title::before {
-  content: '\1F50D'; /* Magnifying Glass Emoji */
+  content: '\1F50D';
   font-size: 20px;
 }
 
 #activity-description {
-  font-size: 14px;
+  font-size: 16px;
   color: #333;
-  padding: 10px;
+  padding: 12px 10px;
 }
 
 /* Question Box */
 #questions-container {
-  background: #f3f3f3;
+  background: #f0fbfc;
   padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
+  border-radius: 8px;
+  border: 1px solid #bde6e8;
 }
 
 .question {
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  font-size: 16px;
 }
 
 /* Input Box */
 input[type="text"] {
-  width: calc(100% - 50px);
-  padding: 8px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 12px;
-  display: inline-block;
+  width: calc(100% - 55px);
+  padding: 10px;
+  border: 2px solid #b2e4e6;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
 /* Validation Message */
 .correct {
-  color: green;
+  color: #00a87d;
   font-weight: bold;
-  margin-top: 5px;
+  margin-top: 6px;
 }
 
 /* Submit & Next Button */
 button {
-  background-color: #00c853;
-  color: white;
-  padding: 8px 12px;
+  font-size: 0.9rem;
+  padding: 0.4em 1em;
+  border-radius: 999px;
+  background-color: #00c2cb;
   border: none;
-  border-radius: 5px;
+  color: white;
+  transition: background-color 0.3s ease;
   cursor: pointer;
-  display: inline-block;
-  margin-left: 5px;
 }
 
-#next-button {
-  background-color: #00c853;
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-top: 15px;
-  display: block;
+button:hover {
+  background-color: #009fa8;
 }
 
-#next-button.hidden {
-  display: none;
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5em;
+  margin-bottom: 2em;
 }
+
+.prev-btn,
+.next-btn {
+  flex: 0 0 auto;
+  width: 45%;
+  padding: 0.6em 0;
+  font-size: 1rem;
+  border-radius: 999px;
+  background-color: #00c2cb;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  background-color: #009fa8;
+}
+
 
 img {
   position: absolute;
   top: 0;
   left: 0;
-  width: 20%;  /* Keep this percentage to ensure it's responsive */
-  max-width: 100px;  /* Limit the maximum width */
-  height: auto; /* Maintain aspect ratio */
+  width: 30%;
+  max-width: 150px;
+  height: auto;
 }
 
 .hint-container {
-  margin-top: 15px;
+  margin-top: 18px;
 }
+
 .hint-text {
   margin-top: 10px;
   font-style: italic;
-  color: #555;
+  color: #444;
 }
 
 .hint-timer {
-  color: #888;
+  color: #777;
   font-size: 0.9em;
 }
 
+/* Reference Notes */
 #reference-notes {
   padding: 1rem;
-  background-color: #f9f9f9;
-  border-left: 4px solid #4CAF50;
-  max-width: 300px;
+  background-color: #e6fdfd;
+  border-left: 4px solid #00c4cc;
   font-family: sans-serif;
 }
 
@@ -156,6 +178,7 @@ img {
   margin-top: 0;
 }
 
+/* Saved Answers */
 #saved-answers-list {
   list-style-type: none;
   padding: 0;
@@ -163,8 +186,8 @@ img {
 
 #saved-answers-list li {
   margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  background-color: #fff;
+  padding: 0.6rem;
+  background-color: #ffffff;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
@@ -174,9 +197,9 @@ img {
 
 .copy-button {
   margin-left: 1rem;
-  padding: 0.3rem 0.6rem;
+  padding: 0.4rem 0.8rem;
   border: none;
-  background-color: #4CAF50;
+  background-color: #00c4cc;
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -185,59 +208,55 @@ img {
 }
 
 .copy-button:hover {
-  background-color: #45a049;
+  background-color: #00aeb3;
 }
 
-/* Switch wrapper */
+/* Toggle Switch */
 .switch {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    font-family: monospace;
-    user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: monospace;
+  user-select: none;
 }
 
-/* Hide default checkbox */
 .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-/* Slider design */
 .slider {
-    position: relative;
-    width: 50px;
-    height: 24px;
-    background-color: #ccc;
-    border-radius: 34px;
-    transition: background-color 0.2s;
+  position: relative;
+  width: 50px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.2s;
 }
 
 .slider::before {
-    content: "";
-    position: absolute;
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    border-radius: 50%;
-    transition: transform 0.2s;
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
 }
 
-/* ON state (checkbox checked) */
 input:checked + .slider {
-    background-color: #28a745;
+  background-color: #00c4cc;
 }
 
 input:checked + .slider::before {
-    transform: translateX(26px);
+  transform: translateX(26px);
 }
 
-/* Optional label text */
 .label-text {
-    color: #fff;
-    font-size: 14px;
+  color: #fff;
+  font-size: 14px;
 }

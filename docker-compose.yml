@@ -10,4 +10,4 @@ services:
       - ./questions.json:/app/questions.json
     stdin_open: true
     tty: true
-    network_mode: host  # Optional: Try commenting this out if issues persist
+    network_mode: host
