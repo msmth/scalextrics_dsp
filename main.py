@@ -4,7 +4,6 @@ from scalextrics_dsp.app import app, socketio
 
 def main():
     parser = argparse.ArgumentParser(
-        description="A fully functional terminal in your browser.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument("-p", "--port", default=5000, help="port to run server on")
