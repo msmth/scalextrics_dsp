@@ -73,7 +73,7 @@ def check_answer():
     # Debugging: Print terminal output for inspection
     print(f"Terminal Output: {terminal_output}")
 
-    # Try to extract all IP addresses starting with 10.104 from nmap output
+    # Try to extract all IP addresses starting with 10.104 from output
     ip_match = re.findall(r"\b10\.104\.\d{1,3}\.\d{1,3}\b", terminal_output)
     
     if ip_match:
