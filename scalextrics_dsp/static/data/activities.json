@@ -45,8 +45,8 @@
       {
         "type": "short-answer",
         "description": [
-          "<p>Now that you have run nmap, you should see a list of devices on the network.</p>",
-          "<p>Look for the device with the name ‘webserver’ and note down its IP address.</p>"
+          "<p>Run the command from the last question.</p>",
+          "<p>Once nmap has finished scanning, it should reveal the IP address of the webserver.</p>"
         ],
         "question": "What is the IP address for the Webserver?",
         "answer_format": "x.x.x.x",
