@@ -119,9 +119,9 @@
           "<p>We’ve been given a scrambled password in the form of a <strong>hash</strong>: <code>0d107d09f5bbe40cade3de5c71e9e9b7</code>.</p>",
           "<p>We'll need to crack the hash to find the password.</p>",
           "<p>First, create a file to store the password hash:</p>",
-          "<ol><li>Run <code>vim password.txt</code></li><li>Paste the hash into the file (<code>ctrl + shift + v</code>) and save it</li></ol>",
+          "<ol><li>Run <code>vim hash.txt</code></li><li>Paste the hash into the file (<code>ctrl + shift + v</code>) and save it</li></ol>",
           "<p>Next, we will use John the Ripper, a tool that can crack password hashes by comparing them to a known password list.</p>",
-          "<p>Run this command: <code>john --format=Raw-MD5 password.txt --wordlist=/usr/share/wordlists/rockyou.txt</code></p>",
+          "<p>Run this command: <code>/opt/john/run/john --pot=/home/UWECyber/john.pot --session=/home/UWECyber/session1 /home/UWECyber/hash.txt --format=raw-md5</code></p>",
           "<p>This will take the hash and compare it to a huge list of common passwords.</p>"
         ],
         "question": "What is the cracked passcode?",

@@ -28,16 +28,14 @@ RUN git clone --depth 1 https://github.com/openwall/john.git /opt/john \
 # Make john accessible
 ENV PATH="/opt/john/run:${PATH}"
 
-# Add example hash for students
-RUN echo "studenthash:0d107d09f5bbe40cade3de5c71e9e9b7" > /home/UWECyber/hash.txt \
-    && chown UWECyber:UWECyber /home/UWECyber/hash.txt
-
 # Set working directory for Python app
 WORKDIR /app
 COPY . /app
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+
+RUN find /home/UWECyber -mindepth 1 -delete
 
 # Switch to student user
 USER UWECyber
